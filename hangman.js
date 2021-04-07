@@ -1,16 +1,23 @@
 
-//import player from './player'
 const fs = require('fs')
 const chalk = require('chalk')
 const readlineSync = require('readline-sync')
 const { randomInt } = require('crypto')
 const words = fs.readFileSync('./dict.txt', 'utf-8').toLowerCase().split('\n')
-//console.log(words)
 const n = randomInt(0, words.length)
-//console.log(`random words: ${words[n]}`)
-const { player } = require('./player')
 
-let life = 3;
+
+// donnée du joeur:
+
+const player = {
+  name: readlineSync.question('Your player name: '),
+  age: Number(readlineSync.question('Your age: ')),
+  life: 10,
+}
+
+
+// donnée du jeu:
+
 let lettre = words[n].split('');
 let letterUsed = []
 let wf = []
@@ -20,10 +27,10 @@ for (let i = 0; i < lettre.length; i++) {
   wf.push('_')
 }
 
-while (life !== 0 || /*lettre.length !== 0*/ wf.includes('_')) {
-
+while (player.life !== 0 || /*lettre.length !== 0*/ wf.includes('_')) {
+  let score = player.life * 10
+  let tabscore = [`name: ${player.name}`, `age: ${player.age}`, `Score: ${score}`]
   let enterLetter = readlineSync.question('Indiquez moi une lettre :');
-  //console.log(`the world : ${wf.join(' ')} `)
   letterUsed.push(enterLetter)
 
   for (let i = 0; i < lettre.length; i++) {
@@ -34,14 +41,20 @@ while (life !== 0 || /*lettre.length !== 0*/ wf.includes('_')) {
     console.log(chalk.cyan('Bien joué, Continue...'))
   } else if (wf.join('') === words[n]) {
     console.log(chalk.black.bgGreen(`Bravo ${player.name} ! le mot est`), chalk.underline.black.bgGreen(`${words[n]}`));
+    console.log(tabscore);
     return false
-  } else if (life === 0) {
+  } else if (player.life === 0) {
     console.log(chalk.black.bgRed('Perdu!'))
     return false
   } else {
-    life -= 1;
-    console.log(chalk.red(`Mauvaise lettre ! il vous reste ${life} essaye`));
+    player.life -= 1;
+    console.log(chalk.red(`Mauvaise lettre ! il vous reste ${player.life} essaye`));
   }
   console.log(chalk.yellow(`the world :`), chalk.underline(`${wf.join(' ')} `))
   console.log(chalk.magenta(`letter utilisée : ${letterUsed}`))
 }
+
+
+//let tabscore = [player.name, player.age, player.life]
+
+//console.log(tabscore)
