@@ -1,3 +1,5 @@
+
+//import player from './player'
 const fs = require('fs')
 const chalk = require('chalk')
 const readlineSync = require('readline-sync')
@@ -6,7 +8,7 @@ const words = fs.readFileSync('./dict.txt', 'utf-8').toLowerCase().split('\n')
 //console.log(words)
 const n = randomInt(0, words.length)
 //console.log(`random words: ${words[n]}`)
-
+const { player } = require('./player')
 
 let life = 3;
 let lettre = words[n].split('');
@@ -31,7 +33,7 @@ while (life !== 0 || /*lettre.length !== 0*/ wf.includes('_')) {
   if (lettre.includes(enterLetter)) {
     console.log(chalk.cyan('Bien joué, Continue...'))
   } else if (wf.join('') === words[n]) {
-    console.log(chalk.black.bgGreen(`Bravo ! le mot est`), chalk.underline.black.bgGreen(`${words[n]}`));
+    console.log(chalk.black.bgGreen(`Bravo ${player.name} ! le mot est`), chalk.underline.black.bgGreen(`${words[n]}`));
     return false
   } else if (life === 0) {
     console.log(chalk.black.bgRed('Perdu!'))
