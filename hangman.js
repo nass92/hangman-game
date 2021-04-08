@@ -15,6 +15,14 @@ const player = {
   life: 10,
 }
 
+let objScore = []
+try {
+  objScore = fs.readFileSync('./highScore.json', 'utf-8')
+} catch (e) {
+  console.error(e.message)
+  process.exit(1)
+}
+objScore = JSON.parse(objScore)
 
 // donnée du jeu:
 
@@ -52,6 +60,9 @@ while (player.life !== 0 || /*lettre.length !== 0*/ wf.includes('_')) {
   }
   console.log(chalk.yellow(`the world :`), chalk.underline(`${wf.join(' ')} `))
   console.log(chalk.magenta(`letter utilisée : ${letterUsed}`))
+  objScore.score.push([player.name, score])
+  objScore = JSON.stringify(objScore)
+  fs.writeFileSync('./highScore.json', objScore)
 }
 
 
